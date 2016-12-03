@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.msunsoft.mapper.infoManager.Operator_BillMapper">
+
+
+    <sql id="BaseColumnList">
+        oper_id,oper_spell_code,oper_name,oper_sex,oper_tel,oper_mobile_tel,oper_address,oper_postcode,oper_ID_number,oper_sort
+    </sql>
+
+    <resultMap id="BaseResultMap" type="com.msunsoft.model.Operator_Bill">
+        <id column="oper_id" property="oper_id" jdbcType="BIGINT"/>
+        <result column="oper_spell_code" property="oper_spell_code" jdbcType="VARCHAR"/>
+        <result column="oper_name" property="oper_name" jdbcType="VARCHAR"/>
+        <result column="oper_sex" property="oper_sex" jdbcType="VARCHAR"/>
+        <result column="oper_tel" property="oper_tel" jdbcType="VARCHAR"/>
+        <result column="oper_mobile_tel" property="oper_mobile_tel" jdbcType="VARCHAR"/>
+        <result column="oper_address" property="oper_address" jdbcType="VARCHAR"/>
+        <result column="oper_postcode" property="oper_postcode" jdbcType="VARCHAR"/>
+        <result column="oper_ID_number" property="oper_ID_number" jdbcType="VARCHAR"/>
+        <result column="oper_sort" property="oper_sort" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findDomainById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT * FROM Operator_Bill
+              WHERE oper_id=#{oper_id,jdbcType=BIGINT}
+    </select>
+
+    <insert id="addDomain" parameterType="com.msunsoft.model.Operator_Bill">
+        INSERT into Operator_Bill VALUES (
+          #{oper_id,jdbcType=BIGINT},#{oper_spell_code,jdbcType=VARCHAR},#{oper_name,jdbcType=VARCHAR},
+          #{oper_sex,jdbcType=VARCHAR},#{oper_tel,jdbcType=VARCHAR},#{oper_mobile_tel,jdbcType=VARCHAR},
+          #{oper_address,jdbcType=VARCHAR},#{oper_postcode,jdbcType=VARCHAR},#{oper_ID_number,jdbcType=VARCHAR},
+          #{oper_sort,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <delete id="deleteDomain" parameterType="java.lang.Long">
+        DELETE FROM Operator_Bill WHERE oper_id=#{oper_id,jdbcType=BIGINT}
+    </delete>
+
+    <update id="updateDomain" parameterType="com.msunsoft.model.Operator_Bill">
+        UPDATE Operator_Bill
+        <set>
+            <if test="oper_id!=null">
+                oper_id = #{oper_id,jdbcType=BIGINT},
+            </if>
+            <if test="oper_spell_code!=null">
+                oper_spell_code = #{oper_spell_code,jdbcType=VARCHAR},
+            </if>
+            <if test="oper_name!=null">
+                oper_name = #{oper_name,jdbcType=VARCHAR},
+            </if>
+            <if test="oper_sex!=null">
+                oper_sex = #{oper_sex,jdbcType=VARCHAR},
+            </if>
+            <if test="oper_tel!=null">
+                oper_tel = #{oper_tel,jdbcType=VARCHAR},
+            </if>
+            <if test="oper_mobile_tel!=null">
+                oper_mobile_tel = #{oper_mobile_tel,jdbcType=VARCHAR},
+            </if>
+            <if test="oper_address!=null">
+                oper_address = #{oper_address,jdbcType=VARCHAR},
+            </if>
+            <if test="oper_postcode!=null">
+                oper_postcode = #{oper_postcode,jdbcType=VARCHAR},
+            </if>
+
+            <if test="oper_ID_number!=null">
+                oper_id_number = #{oper_ID_number,jdbcType=VARCHAR},
+
+            </if>
+            <if test="oper_sort!=null">
+                oper_sort = #{oper_sort,jdbcType=VARCHAR},
+            </if>
+            WHERE oper_id = #{oper_id,jdbcType=BIGINT}
+        </set>
+    </update>
+
+
+    <select id="findPageCondition" parameterType="com.msunsoft.utils.PageInfo" resultMap="BaseResultMap">
+        SELECT * FROM ( select A.*,ROWNUM RN from ( select  <include refid="BaseColumnList"/>  from Operator_Bill ) A WHERE  <![CDATA[  ROWNUM <=#{size}  ]]>)
+        <![CDATA[  WHERE RN >= #{from}  ]]>
+    </select>
+
+
+    <select id="findPageCount" parameterType="com.msunsoft.utils.PageInfo" resultType="java.lang.Integer">
+        SELECT COUNT(*) count FROM Operator_Bill
+    </select>
+
+
+</mapper>

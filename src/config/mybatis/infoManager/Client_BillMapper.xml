@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.msunsoft.mapper.infoManager.Client_BillMapper">
+    <sql id="Base_Column_List">
+        clie_id,clie_spell_code,clie_shortname,clie_name,clie_linkman,clie_address,clie_postcode,clie_tel,clie_fax,clie_bank,clie_iban,clie_sort,oper_id,clie_creditlimt
+    </sql>
+
+    <resultMap id="BaseResultMap" type="com.msunsoft.model.Client_Bill">
+        <id column="clie_id" property="clie_id" jdbcType="BIGINT"/>
+        <result column="clie_spell_code" property="clie_spell_code" jdbcType="VARCHAR"/>
+        <result column="clie_shortname" property="clie_shortname" jdbcType="VARCHAR"/>
+        <result column="clie_name" property="clie_name" jdbcType="VARCHAR"/>
+        <result column="clie_linkman" property="clie_linkman" jdbcType="VARCHAR"/>
+        <result column="clie_address" property="clie_address" jdbcType="VARCHAR"/>
+        <result column="clie_postcode" property="clie_postcode" jdbcType="VARCHAR"/>
+        <result column="clie_tel" property="clie_tel" jdbcType="VARCHAR"/>
+        <result column="clie_fax" property="clie_fax" jdbcType="VARCHAR"/>
+        <result column="clie_bank" property="clie_bank" jdbcType="VARCHAR"/>
+        <result column="clie_iban" property="clie_iban" jdbcType="VARCHAR"/>
+        <result column="clie_sort" property="clie_sort" jdbcType="VARCHAR"/>
+        <result column="oper_id" property="oper_id" jdbcType="BIGINT"/>
+        <result column="clie_creditlimt" property="clie_creditlimt" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <select id="findDomainById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT * FROM Client_Bill 
+                  WHERE clie_id=#{clie_id,jdbcType=BIGINT}
+    </select>
+
+    <select id="findPageCondition" parameterType="com.msunsoft.utils.PageInfo" resultMap="BaseResultMap">
+        <!--SELECT * FROM ( select A.*,ROWNUM RN from ( select  <include refid="Base_Column_List"/>  from client_bill ) A WHERE  <![CDATA[  ROWNUM <=#{size}  ]]>)
+        <![CDATA[  WHERE RN >= #{from}  ]]>-->
+        SELECT * FROM Client_Bill
+    </select>
+
+    <select id="findPageCount" parameterType="com.msunsoft.utils.PageInfo" resultType="java.lang.Integer">
+        SELECT COUNT(*) count FROM Client_Bill
+    </select>
+
+
+    <delete id="deleteDomain" parameterType="java.lang.Long">
+        DELETE FROM Client_Bill
+                WHERE clie_id=#{clie_id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="addDomain" parameterType="com.msunsoft.model.Client_Bill">
+        INSERT INTO Client_Bill
+                VALUES (I_CLIENT_BILL.nextval,#{clie_spell_code,jdbcType=VARCHAR},#{clie_shortname,jdbcType=VARCHAR},
+                #{clie_name,jdbcType=VARCHAR},
+                #{clie_linkman,jdbcType=VARCHAR},#{clie_address,jdbcType=VARCHAR},#{clie_postcode,jdbcType=VARCHAR},
+                #{clie_tel,jdbcType=VARCHAR},#{clie_fax,jdbcType=VARCHAR},#{clie_bank,jdbcType=VARCHAR},
+                #{clie_iban,jdbcType=VARCHAR},#{clie_sort,jdbcType=VARCHAR},#{oper_id,jdbcType=BIGINT},
+                #{clie_creditlimt,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateDomain" parameterType="com.msunsoft.model.Client_Bill">
+        update CLIENT_BILL
+        <set>
+            <if test="clie_id!=null">
+                clie_id = #{clie_id,jdbcType=BIGINT},
+            </if>
+            <if test="clie_spell_code!=null">
+                clie_spell_code = #{clie_spell_code,jdbcType=VARCHAR},
+            </if>
+            <if test="clie_shortname!=null">
+                clie_shortname = #{clie_shortname,jdbcType=VARCHAR},
+            </if>
+            <if test="clie_name!=null">
+                clie_name = #{clie_name,jdbcType=VARCHAR},
+            </if>
+            <if test="clie_linkman!=null">
+                clie_linkman = #{clie_linkman,jdbcType=VARCHAR},
+            </if>
+            <if test="clie_postcode!=null">
+                clie_postcode = #{clie_postcode,jdbcType=VARCHAR},
+            </if>
+            <if test="clie_tel!=null">
+                clie_tel = #{clie_tel,jdbcType=VARCHAR},
+            </if>
+            <if test="clie_fax!=null">
+                clie_fax = #{clie_fax,jdbcType=VARCHAR},
+            </if>
+            <if test="clie_bank!=null">
+                clie_bank = #{clie_bank,jdbcType=VARCHAR},
+            </if>
+            <if test="clie_iban!=null">
+                clie_iban = #{clie_iban,jdbcType=VARCHAR},
+            </if>
+            <if test="clie_sort!=null">
+                clie_sort = #{clie_sort,jdbcType=VARCHAR},
+            </if>
+            <if test="oper_id!=null">
+                oper_id = #{oper_id,jdbcType=BIGINT},
+            </if>
+            <if test="clie_creditlimt!=null">
+                clie_creditlimt = #{clie_creditlimt,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE clie_id=#{clie_id,jdbcType=BIGINT}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.msunsoft.mapper.User_Bill_Mapper">
+
+    <sql id="Base_Column_List">
+        user_id,user_name,user_password,popedom_id
+    </sql>
+
+    <resultMap id="BaseUserMap" type="com.msunsoft.model.User_Bill">
+        <id column="user_id" property="user_id" jdbcType="BIGINT"/>
+        <result column="user_name" property="user_name" jdbcType="VARCHAR"/>
+        <result column="user_password" property="user_password" jdbcType="VARCHAR"/>
+        <result column="popedom_id" property="popedom_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!--根据id查询用户-->
+    <select id="getUserById" resultMap="BaseUserMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from USER_BILL
+        WHERE user_id = #{user_id}
+    </select>
+
+    <!--插入用户-->
+    <insert id="insertUser" parameterType="com.msunsoft.model.User_Bill">
+        INSERT INTO USER_BILL(user_id,user_name,user_password,popedom_id)
+        VALUES (I_USER_BILL.nextval,#{user_name,jdbcType=VARCHAR},#{user_password,jdbcType=VARCHAR},#{popedom_id,jdbcType=BIGINT})
+    </insert>
+
+    <!--更新用户-->
+    <update id="updateUser" parameterType="com.msunsoft.model.User_Bill">
+        UPDATE USER_BILL
+        <set>
+            <if test="user_name!=null">
+                user_name = #{user_name,jdbcType=VARCHAR}
+            </if>
+            <if test="user_password!=null">
+                user_password = #{user_password,jdbcType=VARCHAR}
+            </if>
+            <if test="popedom_id">
+                popedom_id = #{popedom_id,jdbcType=BIGINT}
+            </if>
+        </set>
+        WHERE user_id=#{user_id,jdbcType=BIGINT}
+    </update>
+
+    <!--删除用户-->
+    <delete id="delUser" parameterType="java.lang.Long">
+        DELETE FROM USER_BILL
+        WHERE user_id=#{user_id,jdbcType=BIGINT}
+    </delete>
+
+    <!--根据名字查询用户-->
+    <select id="getUserByUserName" parameterType="java.lang.String" resultMap="BaseUserMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM USER_BILL
+        WHERE user_name=#{user_name,jdbcType=VARCHAR}
+    </select>
+
+    <!--获取所有用户-->
+    <select id="getAllUser" resultMap="BaseUserMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM USER_BILL
+    </select>
+</mapper>

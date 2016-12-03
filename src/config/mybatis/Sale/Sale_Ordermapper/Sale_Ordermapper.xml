@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.msunsoft.mapper.Salemapper.Sale_Ordermapper" >
+
+    <resultMap id="BaseResultMap" type="com.msunsoft.model.Sale_Order">
+        <id column="so_id" property="so_id" jdbcType="BIGINT"/>
+        <result column="clie_id" property="clie_id" jdbcType="BIGINT"/>
+        <result column="so_date" property="so_date" jdbcType="TIMESTAMP"/>
+        <result column="so_begain_date" property="so_begain_date" jdbcType="TIMESTAMP"/>
+        <result column="so_end_date" property="so_end_date" jdbcType="TIMESTAMP"/>
+        <result column="oper_id" property="oper_id" jdbcType="BIGINT"/>
+        <result column="cbill" property="cbill" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        so_id, clie_id, so_date, so_begain_date,so_end_date,oper_id,cbill
+    </sql>
+
+    <insert id="insertSo" parameterType="com.msunsoft.model.Sale_Order">
+        <!-- <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey> -->
+        <!--DATE属性未添加-->
+        <!--添加销售订单表-->
+
+        insert into sale_order(so_id, clie_id, so_date, so_begain_date,so_end_date,oper_id,cbill)
+        values (I_SALE_ORDER.Nextval,#{clie_id,jdbcType=BIGINT},  #{so_date,jdbcType=TIMESTAMP},#{so_begain_date,jdbcType=TIMESTAMP},#{so_end_date,jdbcType=TIMESTAMP},#{oper_id,jdbcType=BIGINT},#{cbill,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateSale_Order" parameterType="com.msunsoft.model.Sale_Order">
+        update SALE_ORDER
+        <set>
+            <if test="clie_id != null">
+                clie_id = #{clie_id,jdbcType=BIGINT},
+            </if>
+            <if test="so_date != null">
+                so_date = #{so_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="so_begain_date != null">
+                so_begain_date = #{so_begain_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="so_end_date != null">
+                so_end_date = #{so_end_date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="oper_id != null">
+                oper_id = #{oper_id,jdbcType=TINYINT},
+            </if>
+            <if test="cbill != null">
+                cbill = #{cbill,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where clie_id = #{clie_id,jdbcType=BIGINT}
+    </update>
+    <delete id="deleteSale_OrderById" parameterType="java.lang.Long">
+        delete from SALE_ORDER where so_id = #{so_id,jdbcType=BIGINT}
+    </delete>
+    <select id="findSale_OrderPageCount" resultType="java.lang.Integer" parameterType="com.msunsoft.utils.PageInfo">
+        SELECT COUNT(*) count from SALE_ORDER
+    </select>
+
+    <select id="findSale_OrderPageCondition" resultMap="BaseResultMap" parameterType="com.msunsoft.utils.PageInfo">
+        SELECT * FROM ( select A.*,ROWNUM RN from ( select
+        <include refid="Base_Column_List"/>
+        from SALE_ORDER order by ${sort} ${order}) A WHERE  <![CDATA[  ROWNUM <=#{size}  ]]>)
+        <![CDATA[  WHERE RN >= #{from}  ]]>
+    </select>
+    <select id="findSale_OrderById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sale_order
+        where id = #{so_id,jdbcType=BIGINT}
+    </select>
+</mapper>

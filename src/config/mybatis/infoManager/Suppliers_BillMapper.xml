@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.msunsoft.mapper.infoManager.Suppliers_BillMapper">
+
+    <sql id="BaseColumnList">
+        supp_id,supp_spell_code,supp_shortname,supp_name,supp_address,supp_postcode,supp_sort,supp_tel,supp_fax,supp_bank,supp_iban,supp_storage_address,supp_storage_tel,oper_id
+    </sql>
+
+    <resultMap id="BaseResultMap" type="com.msunsoft.model.Suppliers_Bill">
+        <id column="supp_id" property="supp_id" jdbcType="BIGINT"/>
+        <result column="supp_spell_code" property="supp_spell_code" jdbcType="VARCHAR"/>
+        <result column="supp_shortname" property="supp_shortname" jdbcType="VARCHAR"/>
+        <result column="supp_name" property="supp_name" jdbcType="VARCHAR"/>
+        <result column="supp_address" property="supp_address" jdbcType="VARCHAR"/>
+        <result column="supp_postcode" property="supp_postcode" jdbcType="VARCHAR"/>
+        <result column="supp_sort" property="supp_sort" jdbcType="VARCHAR"/>
+        <result column="supp_tel" property="supp_tel" jdbcType="VARCHAR"/>
+        <result column="supp_fax" property="supp_fax" jdbcType="VARCHAR"/>
+        <result column="supp_bank" property="supp_bank" jdbcType="VARCHAR"/>
+        <result column="supp_iban" property="supp_iban" jdbcType="VARCHAR"/>
+        <result column="supp_storage_address" property="supp_storage_address" jdbcType="VARCHAR"/>
+        <result column="supp_storage_tel" property="supp_storage_tel" jdbcType="VARCHAR"/>
+        <result column="oper_id" property="oper_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <select id="findDomainById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select * from suppliers_bill WHERE supp_id=#{supp_id,jdbcType=BIGINT}
+    </select>
+
+    <update id="updateDomain" parameterType="com.msunsoft.model.Suppliers_Bill">
+        UPDATE SUPPLIERS_BILL
+        <set>
+            <if test="supp_id!=null">
+                supp_id = #{supp_id,jdbcType=BIGINT}
+            </if>
+            <if test="supp_spell_code!=null">
+                supp_spell_code = #{supp_spell_code,jdbcType=VARCHAR}
+            </if>
+            <if test="supp_shortname!=null">
+                supp_shortname = #{supp_shortname,jdbcType=VARCHAR}
+            </if>
+            <if test="supp_name!=null">
+                supp_name = #{supp_name,jdbcType=VARCHAR}
+            </if>
+            <if test="supp_address!=null">
+                supp_address = #{supp_address,jdbcType=VARCHAR}
+            </if>
+            <if test="supp_postcode!=null">
+                supp_postcode = #{supp_postcode,jdbcType=VARCHAR}
+            </if>
+            <if test="supp_sort!=null">
+                supp_sort = #{supp_sort,jdbcType=VARCHAR}
+            </if>
+            <if test="supp_tel!=null">
+                supp_tel = #{supp_tel,jdbcType=VARCHAR}
+            </if>
+            <if test="supp_fax!=null">
+                supp_fax = #{supp_fax,jdbcType=VARCHAR}
+            </if>
+            <if test="supp_bank!=null">
+                supp_bank = #{supp_bank,jdbcType=VARCHAR}
+            </if>
+            <if test="supp_iban!=null">
+                supp_iban = #{supp_iban,jdbcType=VARCHAR}
+            </if>
+            <if test="supp_storage_address!=null">
+                supp_storage_address = #{supp_storage_address,jdbcType=VARCHAR}
+            </if>
+            <if test="supp_storage_tel!=null">
+                supp_storage_tel = #{supp_storage_tel,jdbcType=VARCHAR}
+            </if>
+            <if test="oper_id!=null">
+                oper_id = #{oper_id,jdbcType=VARCHAR}
+            </if>
+        </set>
+        WHERE supp_id=#{supp_id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="addDomain" parameterType="com.msunsoft.model.Suppliers_Bill">
+        INSERT into Suppliers_Bill
+        VALUES (I_SUPPLIERS_BILL.nextval,#{supp_spell_code,jdbcType=VARCHAR},#{supp_shortname,jdbcType=VARCHAR},
+        #{supp_name,jdbcType=VARCHAR},#{supp_address,jdbcType=VARCHAR},#{supp_postcode,jdbcType=VARCHAR},
+        #{supp_sort,jdbcType=VARCHAR},#{supp_tel,jdbcType=VARCHAR},#{supp_fax,jdbcType=VARCHAR},
+        #{supp_bank,jdbcType=VARCHAR},#{supp_iban,jdbcType=VARCHAR},#{supp_storage_address,jdbcType=VARCHAR},
+        #{supp_storage_tel,jdbcType=VARCHAR},#{oper_id,jdbcType=BIGINT})
+    </insert>
+
+    <delete id="deleteDomain" parameterType="java.lang.Long">
+        DELETE FROM SUPPLIERS_BILL WHERE supp_id=#{supp_id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="findPageCondition" parameterType="com.msunsoft.utils.PageInfo" resultMap="BaseResultMap">
+        /*SELECT * FROM Suppliers_Bill*/
+
+        SELECT * FROM ( select A.*,ROWNUM RN from ( select  <include refid="BaseColumnList"/>  from Suppliers_Bill ) A WHERE  <![CDATA[  ROWNUM <=#{size}  ]]>)
+        <![CDATA[  WHERE RN >= #{from}  ]]>
+    </select>
+
+    <select id="findPageCount" parameterType="com.msunsoft.utils.PageInfo" resultType="java.lang.Integer">
+        SELECT count(*) count FROM SUPPLIERS_BILL
+    </select>
+</mapper>

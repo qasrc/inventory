@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.msunsoft.mapper.Popedom_Bill_Mapper">
+    <sql id="Base_Column_List">
+        pope_id,pope_name
+    </sql>
+
+    <resultMap id="BaseResultMap" type="com.msunsoft.model.Popedom_Bill">
+        <id column="POPE_ID" property="pope_id" jdbcType="BIGINT"/>
+        <result column="POPE_NAME" property="pope_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <resultMap id="RPBMap" type="com.msunsoft.model.Resources_Popedom_Bill">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="popedom_bill_id" property="popedom_bill_id" jdbcType="BIGINT"/>
+        <result column="resources_id" property="resources_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <insert id="insertPopedom" parameterType="com.msunsoft.model.Popedom_Bill">
+        INSERT INTO POPEDOM_BILL (pope_id,pope_name) VALUES (I_POPEDOM_BILL.nextval,#{pope_name,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deletePopedom" parameterType="java.lang.Long">
+        DELETE FROM POPEDOM_BILL WHERE pope_id=#{pope_id,jdbcType=BIGINT}
+    </delete>
+
+    <update id="updatePopedom" parameterType="com.msunsoft.model.Popedom_Bill">
+        UPDATE POPEDOM_BILL
+        <set>
+            <if test="pope_id!=null">
+                pope_id = #{pope_id,jdbcType=BIGINT}
+            </if>
+            <if test="pope_name!=null">
+                pope_name = #{pope_name,jdbcType=VARCHAR}
+            </if>
+        </set>
+        WHERE  POPE_ID = #{pope_id,jdbcType=BIGINT}
+    </update>
+
+    <select id="getPopedomById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM POPEDOM_BILL
+        WHERE POPE_ID=#{pope_id,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="getAllPopedom" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM POPEDOM_BILL
+    </select>
+
+    <select id="findDateCount" resultType="java.lang.Integer" parameterType="com.msunsoft.utils.PageInfo">
+        SELECT COUNT(*) count FROM POPEDOM_BILL
+    </select>
+
+    <select id="getAllGridDate" resultMap="BaseResultMap" parameterType="com.msunsoft.utils.PageInfo">
+        SELECT * FROM POPEDOM_BILL
+    </select>
+
+    <!--<select id="findResource_Popedom_Bill_ByPopedomId" parameterType="java.lang.Long" resultMap="RPBMap">
+        /*SELECT
+        pr.id as id
+        FROM POPEDOM_BILL p
+        LEFT JOIN Resources_Popedom_Bill pr ON pr.popedom_bill_id = p.id
+        WHERE id=#{id}*/
+
+        SELECT * FROM RESOURCES_POPEDOM_BILL
+        WHERE popedom_bill_id=#{popedom_bill_id,jdbcType=BIGINT}
+    </select>-->
+</mapper>

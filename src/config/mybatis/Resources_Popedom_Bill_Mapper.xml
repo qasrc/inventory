@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.msunsoft.mapper.Resources_Popedom_Bill_Mapper">
+
+    <sql id="Base_Column_List">
+        id,popedom_bill_id,resources_id
+    </sql>
+
+    <resultMap id="BaseResultMap" type="com.msunsoft.model.Resources_Popedom_Bill">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="popedom_bill_id" property="popedom_bill_id" jdbcType="BIGINT"/>
+        <result column="resources_id" property="resources_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <insert id="insertRPB" parameterType="com.msunsoft.model.Resources_Popedom_Bill">
+        INSERT INTO Resources_Popedom_Bill (id,popedom_bill_id,resources_id)
+        VALUES (I_Resources_Popedom_Bill.nextval,#{popedom_bill_id,jdbcType=BIGINT},#{resources_id,jdbcType=BIGINT})
+    </insert>
+
+    <update id="updateRPB" parameterType="com.msunsoft.model.Resources_Popedom_Bill">
+        UPDATE Resources_Popedom_Bill
+        <set>
+            <if test="id!=null">
+                id=#{id,jdbcType=BIGINT}
+            </if>
+            <if test="popedom_bill_id!=null">
+                popedom_bill_id=#{popedom_bill_id,jdbcType=BIGINT}
+            </if>
+            <if test="resources_id!=null">
+                resources_id=#{resources_id,jdbcType=BIGINT}
+            </if>
+        </set>
+        WHERE id=#{id,jdbcType=BIGINT};
+
+    </update>
+
+    <delete id="deletePRB" parameterType="java.lang.Long">
+        DELETE FROM Resources_Popedom_Bill
+        WHERE id=#{id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="getRPBById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM Resources_Popedom_Bill
+        WHERE id=#{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="getRPBByPopeId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM Resources_Popedom_Bill
+        WHERE popedom_bill_id=#{popedom_bill_id,jdbcType=BIGINT}
+    </select>
+
+</mapper>
